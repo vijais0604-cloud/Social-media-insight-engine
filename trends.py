@@ -1,7 +1,7 @@
 import re
 from collections import Counter
 
-HASHTAG_RE = re.compile(r"#\w+")
+HASHTAG_RE = re.compile(r"#(\w+)")
 
 def extract_hashtags(texts):
     tags = []

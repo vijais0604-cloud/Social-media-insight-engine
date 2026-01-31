@@ -1,11 +1,10 @@
 from flask import Flask, render_template, request, jsonify
 import psycopg2
 from llm_insights import get_llm_summary
+from database import get_db_connection
 
 app = Flask(__name__)
 
-def get_db_connection():
-    return psycopg2.connect(dbname="sentimentdb", user="vijais")
 
 @app.route("/")
 def dashboard():
@@ -29,7 +28,7 @@ def search():
     cur = conn.cursor()
     
     # ILIKE is good, but for 1.6M rows, ensure you have a GIN index on 'content'
-    cur.execute("SELECT content FROM tweets WHERE content ILIKE %s LIMIT 100", (f"%{query}%",))
+    cur.execute("SELECT content FROM tweets WHERE content ILIKE %s ORDER BY id DESC FETCH FIRST 100 ROWS ONLY", (f"%{query}%",))
     texts = [r[0] for r in cur.fetchall()]
     
     cur.close()
@@ -44,8 +43,8 @@ def get_trends():
     conn = get_db_connection()
     cur = conn.cursor()
     # This SQL finds all words starting with # and counts them
-    cur.execute("""
-        SELECT regexp_matches(content, '#\w+', 'g'), COUNT(*)
+    cur.execute(r"""
+        SELECT (regexp_matches(content, '#(\w+)', 'g')), COUNT(*)
         FROM tweets
         GROUP BY 1
         ORDER BY 2 DESC
