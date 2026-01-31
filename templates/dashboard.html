@@ -1,0 +1,35 @@
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card bg-primary text-white p-3">
+            <h3>{{ total }}</h3>
+            <p>Total Posts Analyzed</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card bg-success text-white p-3">
+            <h3>{{ breakdown.get('Positive', 0) }}</h3>
+            <p>Positive Sentiment</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card bg-danger text-white p-3">
+            <h3>{{ breakdown.get('Negative', 0) }}</h3>
+            <p>Negative Sentiment</p>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <h4>LLM Insights</h4>
+        <div id="crisis-card" class="card p-3 mb-3 border-danger">
+            <h5>⚠️ Crisis Detection</h5>
+            <p id="crisis-text">Loading AI analysis...</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <h4>Top 10 Trends</h4>
+        <ul id="trend-list" class="list-group">
+            </ul>
+    </div>
+</div>
