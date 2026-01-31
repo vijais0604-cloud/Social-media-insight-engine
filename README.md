@@ -54,3 +54,12 @@ The system combines:
 ---
 
 ## 🏗️ System Architecture
+CSV Dataset
+↓
+Staging Table (tweets_raw)
+↓
+Normalized Table (tweets – hypertable)
+↓
+Flask APIs
+↓
+Frontend Dashboard + LLM Insights
